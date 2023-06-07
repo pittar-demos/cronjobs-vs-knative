@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restclient
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: restclient
+            image: quay.io/pittar/restclient:1.6
+            imagePullPolicy: Always
+            env:
+              - name: INIT_MESSAGE
+                value: "Init for cronjob."
+              - name: ENDPOINT_ENABLED
+                value: 'false'
+          restartPolicy: OnFailure

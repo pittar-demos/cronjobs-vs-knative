@@ -1,0 +1,38 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: restclient
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/target: "10"
+        autoscaling.knative.dev/targetUtilizationPercentage: "70"
+        autoscaling.knative.dev/window: 6s
+        autoscaling.knative.dev/scale-down-delay: "10s"
+    spec:
+      containerConcurrency: 0
+      containers:
+      - image: quay.io/pittar/restclient:1.6
+        imagePullPolicy: Always
+        name: restclient
+        env:
+          - name: INIT_MESSAGE
+            value: "Init for knative service."
+          - name: POST_MESSAGE
+            value: "POST from knative service."
+          - name: ENDPOINT_ENABLED
+            value: 'true'
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          successThreshold: 1
+          tcpSocket:
+            port: 0
+        resources: {}
+      enableServiceLinks: false
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 100

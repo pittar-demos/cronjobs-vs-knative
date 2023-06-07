@@ -1,0 +1,6 @@
+namespace: eventing-test
+
+resources:
+  - namespace.yaml
+  - service.yaml
+  - pingsource.yaml

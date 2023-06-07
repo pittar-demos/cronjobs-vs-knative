@@ -1,0 +1,17 @@
+apiVersion: sources.knative.dev/v1
+kind: PingSource
+metadata:
+  labels:
+    app: ping-source
+    app.kubernetes.io/component: ping-source
+    app.kubernetes.io/instance: ping-source
+    app.kubernetes.io/name: ping-source
+  name: ping-source
+spec:
+  data: '{"id": 72}'
+  schedule: '*/1 * * * *'
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: restclient

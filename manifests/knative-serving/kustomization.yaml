@@ -1,0 +1,5 @@
+namespace: serving-test
+
+resources:
+  - namespace.yaml
+  - service.yaml
